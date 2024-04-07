@@ -1,4 +1,4 @@
-import { Link, LinkProps, LinkTypeMap, Typography } from "@mui/joy";
+import { Link, LinkProps, LinkTypeMap, Typography, useTheme } from "@mui/joy";
 import { Link as RouterLink } from "react-router-dom";
 
 interface IProps extends LinkProps<LinkTypeMap['defaultComponent'], {
@@ -12,6 +12,7 @@ export default function TextMenuButton(props: IProps) {
     const {
         sx,
         children,
+        disabled,
         ...rest
     } = props;
 
@@ -23,9 +24,16 @@ export default function TextMenuButton(props: IProps) {
                 ...sx
             }}
             component={RouterLink}
+            disabled={disabled}
             {...rest}
         >
-            <Typography textColor="primary.200">
+            <Typography
+                textColor={
+                    disabled
+                        ? useTheme().palette.neutral[500]
+                        : useTheme().palette.neutral[300]
+                }
+            >
                 {children}
             </Typography>
         </Link>

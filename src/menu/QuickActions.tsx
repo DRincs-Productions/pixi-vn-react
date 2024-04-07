@@ -1,18 +1,19 @@
-import { GameStepManager } from '@drincs/pixi-vn';
 import { Grid } from '@mui/joy';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TextMenuButton from '../components/TextMenuButton';
 import { goBack, loadGameSave, saveGame } from '../utility/ActionsUtility';
 
 type IProps = {
     afterLoad?: () => void
+    canGoBack: boolean
 }
 
 export default function QuickActions(props: IProps) {
-    const { afterLoad: afterBack } = props
+    const {
+        afterLoad,
+        canGoBack = true
+    } = props
     const navigate = useNavigate();
-    const [canGoBack, setCanGoBack] = useState(false);
     return (
         <Grid
             container
@@ -34,8 +35,7 @@ export default function QuickActions(props: IProps) {
             >
                 <TextMenuButton
                     onClick={() => goBack(navigate, () => {
-                        afterBack && afterBack()
-                        setCanGoBack(GameStepManager.canGoBack)
+                        afterLoad && afterLoad()
                     })}
                     disabled={!canGoBack}
                 >
@@ -78,7 +78,7 @@ export default function QuickActions(props: IProps) {
                 paddingY={0}
             >
                 <TextMenuButton
-                    onClick={() => loadGameSave(navigate, afterBack)}
+                    onClick={() => loadGameSave(navigate, afterLoad)}
                 >
                     Load
                 </TextMenuButton>

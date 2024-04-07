@@ -32,6 +32,7 @@ export default function DialogueInterface(props: IProps) {
     const [character, setCharacter] = useState<CharacterModelBase | undefined>(undefined)
     const [menu, setMenu] = useState<ChoiceMenuOptionsType | undefined>(undefined)
     const [update, setUpdate] = useState(0)
+    const [canGoBack, setCanGoBack] = useState(GameStepManager.canGoBack);
     useEffect(() => {
         let dial = getDialogue()
         if (dial) {
@@ -48,6 +49,7 @@ export default function DialogueInterface(props: IProps) {
         }
         let m = getChoiceMenuOptions()
         setMenu(m)
+        setCanGoBack(GameStepManager.canGoBack)
     }, [upadateInterface, update])
 
     function nextOnClick() {
@@ -66,7 +68,10 @@ export default function DialogueInterface(props: IProps) {
 
     return (
         <>
-            <QuickActions afterLoad={() => setUpdate((p) => p + 1)} />
+            <QuickActions
+                afterLoad={() => setUpdate((p) => p + 1)}
+                canGoBack={canGoBack}
+            />
             {menu && <DialogueMenuInterface
                 dialogueWindowHeight={windowSize.y + 50}
                 fullscreen={text ? false : true}
