@@ -1,14 +1,14 @@
 import { Link, LinkProps, LinkTypeMap, Typography, useTheme } from "@mui/joy";
 import { Link as RouterLink } from "react-router-dom";
 
-interface IProps extends LinkProps<LinkTypeMap['defaultComponent'], {
+interface TextMenuButtonProps extends LinkProps<LinkTypeMap['defaultComponent'], {
     component?: React.ElementType;
     focusVisible?: boolean;
 }> {
     to?: string;
 }
 
-export default function TextMenuButton(props: IProps) {
+export default function TextMenuButton(props: TextMenuButtonProps) {
     const {
         sx,
         children,

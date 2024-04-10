@@ -10,7 +10,7 @@ type IProps = {
     afterClick?: () => void,
 }
 
-export default function DialogueMenuInterface(props: IProps) {
+export default function DialogueMenu(props: IProps) {
     const {
         menu,
         dialogueWindowHeight,

@@ -1,19 +1,20 @@
 import { Grid } from '@mui/joy';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { afterLoadEventState } from '../atoms/afterLoadEventState';
+import { canGoBackState } from '../atoms/canGoBackState';
+import { openHistoryState } from '../atoms/openHistoryState';
+import { openSettingsState } from '../atoms/openSettingsState';
 import TextMenuButton from '../components/TextMenuButton';
 import { goBack, loadGameSave, saveGame } from '../utility/ActionsUtility';
 
-type IProps = {
-    afterLoad?: () => void
-    canGoBack: boolean
-}
-
-export default function QuickActions(props: IProps) {
-    const {
-        afterLoad,
-        canGoBack = true
-    } = props
+export default function QuickActions() {
+    const setOpenSettings = useSetRecoilState(openSettingsState);
+    const setOpenHistory = useSetRecoilState(openHistoryState);
     const navigate = useNavigate();
+    const canGoBack = useRecoilValue(canGoBackState)
+    const notifyLoadEvent = useSetRecoilState(afterLoadEventState);
+
     return (
         <Grid
             container
@@ -34,9 +35,7 @@ export default function QuickActions(props: IProps) {
                 paddingY={0}
             >
                 <TextMenuButton
-                    onClick={() => goBack(navigate, () => {
-                        afterLoad && afterLoad()
-                    })}
+                    onClick={() => goBack(navigate, () => { notifyLoadEvent((prev) => prev + 1) })}
                     disabled={!canGoBack}
                 >
                     Back
@@ -46,7 +45,7 @@ export default function QuickActions(props: IProps) {
                 paddingY={0}
             >
                 <TextMenuButton
-                    to="/history"
+                    onClick={() => setOpenHistory(true)}
                 >
                     History
                 </TextMenuButton>
@@ -78,18 +77,20 @@ export default function QuickActions(props: IProps) {
                 paddingY={0}
             >
                 <TextMenuButton
-                    onClick={() => loadGameSave(navigate, afterLoad)}
+                    onClick={() => loadGameSave(navigate, () => notifyLoadEvent((prev) => prev + 1))}
                 >
                     Load
                 </TextMenuButton>
             </Grid>
-            {/* <Grid
+            <Grid
                 paddingY={0}
             >
-                <TextMenuButton>
+                <TextMenuButton
+                    onClick={() => setOpenSettings(true)}
+                >
                     Prefs
                 </TextMenuButton>
-            </Grid> */}
-        </Grid>
+            </Grid>
+        </Grid >
     );
 }

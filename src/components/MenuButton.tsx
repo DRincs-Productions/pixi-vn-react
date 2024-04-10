@@ -1,11 +1,11 @@
 import { Button, ButtonProps, ButtonTypeMap } from "@mui/joy";
 
-interface IProps extends ButtonProps<ButtonTypeMap['defaultComponent'], {
+interface MenuButtonProps extends ButtonProps<ButtonTypeMap['defaultComponent'], {
     component?: React.ElementType;
 }> {
 }
 
-export default function MenuButton(props: IProps) {
+export default function MenuButton(props: MenuButtonProps) {
     const {
         sx,
         ...rest
