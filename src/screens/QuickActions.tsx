@@ -101,6 +101,7 @@ export default function QuickActions() {
                 >
                     <TextMenuButton
                         onClick={() => setOpenYouSure(true)}
+                        disabled={!localStorage.getItem("quickSave")}
                     >
                         Q.Load
                     </TextMenuButton>
