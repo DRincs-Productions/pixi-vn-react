@@ -3,6 +3,7 @@ import AppImports from './AppImports';
 import Dialogue from './screens/Dialogue';
 import History from './screens/History';
 import MainMenu from './screens/MainMenu';
+import QuickActions from './screens/QuickActions';
 import Settings from './screens/Settings';
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
                 <Route key={"main_menu"} path={"/"} element={<MainMenu />} />
                 <Route key={"game"} path={"/game"}
                     element={<>
+                        <QuickActions />
                         <Dialogue />
                     </>}
                 />

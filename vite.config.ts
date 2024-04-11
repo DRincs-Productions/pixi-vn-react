@@ -11,31 +11,27 @@ export default defineConfig({
       typescript: true,
     }),
     VitePWA({
-      registerType: 'prompt',
-      includeAssets: ["vite.svg"],
+      // you can generate the icons using: https://favicon.io/favicon-converter/
+      // and the maskable icon using: https://progressier.com/maskable-icons-editor
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
-        name: "Your App",
-        short_name: "your-app",
-        description: "Your App Description",
-        theme_color: '#171717',
-        background_color: '#f0e7db',
+        name: 'Your App',
+        short_name: 'your-app',
+        description: 'Your App Description',
+        theme_color: '#ffffff',
         icons: [
           {
-            src: '/vite.svg',
+            src: 'pwa-192x192.png',
             sizes: '192x192',
-            type: 'image/svg'
+            type: 'image/png'
           },
           {
-            src: '/vite.svg',
+            src: 'pwa-512x512.png',
             sizes: '512x512',
-            type: 'image/svg'
+            type: 'image/png'
           }
-        ],
-        display: "standalone",
-        scope: '/',
-        start_url: "/",
-        orientation: 'portrait'
+        ]
       }
-    }),
+    })
   ],
 })

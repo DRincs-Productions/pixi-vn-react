@@ -37,3 +37,16 @@ export function goBack(navigate: (path: string) => void, afterBack?: () => void)
     GameStepManager.goBack(navigate)
     afterBack && afterBack()
 }
+
+export function quickSaveGame() {
+    const jsonString = getSaveJson()
+    localStorage.setItem("quickSave", jsonString)
+}
+
+export function quickLoadGame(navigate: (path: string) => void, afterLoad?: () => void) {
+    const jsonString = localStorage.getItem("quickSave")
+    if (jsonString) {
+        loadSaveJson(jsonString, navigate);
+        afterLoad && afterLoad();
+    }
+}
