@@ -116,7 +116,7 @@ export default function Settings() {
                             </FormLabel>
                             <FormHelperText sx={{ typography: 'body-sm' }}>
                                 Choose the solid color for the theme. It can be black or white and will be contrasting with the primary color.
-                                So if the primary color is dark, the solid color will be white, and vice versa.
+                                So if the primary color is dark, the solid color will be white, and a the other way around.
                             </FormHelperText>
                         </Box>
                         <ToggleButtonGroup
