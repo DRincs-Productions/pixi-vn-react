@@ -38,15 +38,31 @@ export function goBack(navigate: (path: string) => void, afterBack?: () => void)
     afterBack && afterBack()
 }
 
-export function quickSaveGame() {
+export function addQuickSave() {
     const jsonString = getSaveJson()
     localStorage.setItem("quickSave", jsonString)
 }
 
-export function quickLoadGame(navigate: (path: string) => void, afterLoad?: () => void) {
+export function loadQuickSave(navigate: (path: string) => void, afterLoad?: () => void) {
     const jsonString = localStorage.getItem("quickSave")
     if (jsonString) {
         loadSaveJson(jsonString, navigate);
         afterLoad && afterLoad();
+    }
+}
+
+export function addRefreshSave() {
+    const jsonString = getSaveJson()
+    if (jsonString) {
+        localStorage.setItem("refreshSave", jsonString)
+    }
+}
+
+export function loadRefreshSave(navigate: (path: string) => void, afterLoad?: () => void) {
+    const jsonString = localStorage.getItem("refreshSave")
+    if (jsonString) {
+        loadSaveJson(jsonString, navigate);
+        afterLoad && afterLoad();
+        localStorage.removeItem("refreshSave")
     }
 }

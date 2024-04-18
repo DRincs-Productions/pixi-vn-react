@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import AppImports from './AppImports';
+import EventInterceptor from './EventInterceptor';
 import Dialogue from './screens/Dialogue';
 import History from './screens/History';
 import MainMenu from './screens/MainMenu';
@@ -20,6 +21,7 @@ function App() {
             </Routes>
             <Settings />
             <History />
+            <EventInterceptor />
         </AppImports>
     )
 }

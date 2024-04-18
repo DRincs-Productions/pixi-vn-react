@@ -6,6 +6,7 @@ interface TextMenuButtonProps extends LinkProps<LinkTypeMap['defaultComponent'],
     focusVisible?: boolean;
 }> {
     to?: string;
+    selected?: boolean;
 }
 
 export default function TextMenuButton(props: TextMenuButtonProps) {
@@ -13,6 +14,7 @@ export default function TextMenuButton(props: TextMenuButtonProps) {
         sx,
         children,
         disabled,
+        selected,
         ...rest
     } = props;
 
@@ -29,9 +31,9 @@ export default function TextMenuButton(props: TextMenuButtonProps) {
         >
             <Typography
                 textColor={
-                    disabled
-                        ? useTheme().palette.neutral[500]
-                        : useTheme().palette.neutral[300]
+                    selected ? useTheme().palette.primary[500] :
+                        disabled ? useTheme().palette.neutral[500] :
+                            useTheme().palette.neutral[300]
                 }
             >
                 {children}

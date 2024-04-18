@@ -4,22 +4,35 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
 import WbIncandescentIcon from '@mui/icons-material/WbIncandescent';
-import { Box, Button, DialogContent, DialogTitle, Divider, Drawer, FormHelperText, FormLabel, IconButton, ModalClose, Sheet, Stack, ToggleButtonGroup, Tooltip, Typography, useColorScheme } from "@mui/joy";
-import { useState } from 'react';
+import { Box, Button, DialogContent, DialogTitle, Divider, Drawer, FormHelperText, FormLabel, IconButton, ModalClose, Sheet, Slider, Stack, ToggleButtonGroup, Tooltip, Typography, useColorScheme } from "@mui/joy";
+import { useEffect, useState } from 'react';
 import { HuePicker } from 'react-color';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { openSettingsState } from '../atoms/openSettingsState';
 import ModalDialogCustom from '../components/ModalDialog';
 import { useEditColorProvider } from '../providers/ThemeProvider';
+import { useMyNavigate } from '../utility/useMyNavigate';
 
 export default function Settings() {
     const [open, setOpen] = useRecoilState(openSettingsState);
     const { mode, setMode } = useColorScheme();
     const { primaryColor, setPrimaryColor, setSolidColor, solidColor } = useEditColorProvider()
-    const navigate = useNavigate();
+    const navigate = useMyNavigate();
     const location = useLocation();
     const [openYouSure, setOpenYouSure] = useState(false)
+    const [autoTime, setAutoTime] = useState(localStorage.getItem('auto_forward_second') ? parseInt(localStorage.getItem('auto_forward_second')!) : 1)
+
+    useEffect(() => {
+        // Debouncing
+        const setAuto = setTimeout(() => {
+            localStorage.setItem('auto_forward_second', autoTime.toString())
+        }, 500)
+
+        return () => {
+            clearTimeout(setAuto)
+        }
+    }, [autoTime])
 
 
     return (
@@ -54,6 +67,46 @@ export default function Settings() {
                     <ModalClose />
                     <Divider sx={{ mt: 'auto' }} />
                     <DialogContent sx={{ gap: 2 }}>
+                        <Typography level="title-md" fontWeight="bold">
+                            Dialogues
+                        </Typography>
+                        <Box>
+                            <FormLabel sx={{ typography: 'title-sm' }}>
+                                Auto Forward Time
+                            </FormLabel>
+                            <FormHelperText sx={{ typography: 'body-sm' }}>
+                                Choose the time in seconds before the dialogue auto-forwards.
+                            </FormHelperText>
+                        </Box>
+                        <Box
+                            sx={{
+                                paddingX: 3,
+                            }}
+                        >
+                            <Slider
+                                defaultValue={autoTime}
+                                getAriaValueText={(value) => `${value}s`}
+                                step={1}
+                                marks={[
+                                    {
+                                        value: 1,
+                                        label: '1s',
+                                    },
+                                    {
+                                        value: 10,
+                                        label: '10s',
+                                    },
+                                ]}
+                                valueLabelDisplay="on"
+                                max={10}
+                                min={1}
+                                onChange={(_, value) => {
+                                    if (value)
+                                        setAutoTime(value as number)
+                                }}
+                            />
+                        </Box>
+
                         <Typography level="title-md" fontWeight="bold">
                             Theme
                         </Typography>
@@ -97,18 +150,24 @@ export default function Settings() {
                                 Choose the primary color for the theme.
                             </FormHelperText>
                         </Box>
-                        <HuePicker
-                            width='95%'
-                            color={primaryColor}
-                            onChange={(color) => setPrimaryColor(color.hex)}
-                            styles={{
-                                default: {
-                                    picker: {
-                                        minHeight: '15px',
-                                    },
-                                },
+                        <Box
+                            sx={{
+                                paddingX: 3,
                             }}
-                        />
+                        >
+                            <HuePicker
+                                width='99%'
+                                color={primaryColor}
+                                onChange={(color) => setPrimaryColor(color.hex)}
+                                styles={{
+                                    default: {
+                                        picker: {
+                                            minHeight: '15px',
+                                        },
+                                    },
+                                }}
+                            />
+                        </Box>
 
                         <Box>
                             <FormLabel sx={{ typography: 'title-sm' }}>

@@ -1,16 +1,16 @@
 import { addImage, clearAllGameDatas, GameStepManager, GameWindowManager } from '@drincs/pixi-vn';
 import { Grid } from '@mui/joy';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { afterLoadEventState } from '../atoms/afterLoadEventState';
 import { openSettingsState } from '../atoms/openSettingsState';
 import MenuButton from '../components/MenuButton';
 import { StartLabel } from '../label/StartLabel';
 import { loadGameSave } from '../utility/ActionsUtility';
+import { useMyNavigate } from '../utility/useMyNavigate';
 
 export default function MainMenu() {
-    const navigate = useNavigate();
+    const navigate = useMyNavigate();
     const setOpenSettings = useSetRecoilState(openSettingsState);
     const notifyLoadEvent = useSetRecoilState(afterLoadEventState);
     useEffect(() => {
